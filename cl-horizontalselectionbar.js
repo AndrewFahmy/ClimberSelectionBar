@@ -82,6 +82,7 @@ define(["jquery", "underscore", "qlik", "translator", "ng!$q", "ng!$http", "./pr
                             },
                             j = {
                                 showDropdowns: !0,
+                                singleDatePicker: c.singleDatePicker,
                                 locale: {
                                     format: e.format.DateFormat,
                                     firstDay: e.format.FirstWeekDay,
@@ -246,18 +247,21 @@ define(["jquery", "underscore", "qlik", "translator", "ng!$q", "ng!$http", "./pr
                                 w = u(c.date.rangeMax, r, !0),
                                 x = u(c.date.initSelectionFrom, r),
                                 y = u(c.date.initSelectionTo, r),
+                                M = u(c.date.initSelection, r),
                                 z = isNaN(Number(c.date.today)) ? u(c.date.today, r, !0) : l(),
-                                A = c.date.useDateRanges ? c.date.dateRanges : null,
-                                B = c.date.useDateRanges ? c.date.alwaysShowCalenders : !0,
+                                A = c.date.useDateRanges && !c.date.singleDate ? c.date.dateRanges : null,
+                                B = c.date.useDateRanges && !c.date.singleDate ? c.date.alwaysShowCalenders : !0,
                                 C = c.date.customRangeLabel,
-                                D = !1;
-                            c.qListObject.qDimensionInfo.qStateCounts.qSelected > 0 ? (c.qListObject.qDimensionInfo.qStateCounts.qSelected < c.date.max - c.date.min + 1 && (D = !0), p = u(c.date.min, r), q = u(c.date.max, r), o = u(c.date.min, s) + " - " + u(c.date.max, s)) : o = c.date.defaultText, d.push({
+                                D = !1,
+                                _l = c.date.singleDate;
+                            c.qListObject.qDimensionInfo.qStateCounts.qSelected > 0 ? (c.qListObject.qDimensionInfo.qStateCounts.qSelected < c.date.max - c.date.min + 1 && (D = !0), p = u(c.date.min, r), q = c.date.singleDate ? u(c.date.min, r) : u(c.date.max, r), o = c.date.singleDate ? u(c.date.min, s) : u(c.date.min, s) + " - " + u(c.date.max, s)) : o = c.date.defaultText, d.push({
                                 field: c.qListObject.qDimensionInfo.qGroupFieldDefs[0],
                                 type: c.listType,
                                 id: g,
                                 visible: c.listVisible,
                                 dateFromInitSelection: x,
                                 dateToInitSelection: y,
+                                dateInitSelection: M,
                                 dateFormat: r,
                                 displayDateFormat: s,
                                 displayText: o,
@@ -271,7 +275,8 @@ define(["jquery", "underscore", "qlik", "translator", "ng!$q", "ng!$http", "./pr
                                 dateRanges: A,
                                 alwaysShowCalendars: B,
                                 customRangeLabel: C,
-                                data: i
+                                data: i,
+                                singleDatePicker : _l
                             });
                             break;
                         default:
@@ -353,7 +358,18 @@ define(["jquery", "underscore", "qlik", "translator", "ng!$q", "ng!$http", "./pr
                                 }), e.selectFieldValues(a.field, d, !1)
                             }
                         }
-                        "VARIABLE" === a.type && "" !== a.initSelection && e.setVariable(a.variable, a.initSelection), "DATERANGE" === a.type && "" !== a.dateFromInitSelection && "" !== a.dateToInitSelection && e.selectDateFromAndTo(a.field, a.dateFromInitSelection, a.dateToInitSelection, !1)
+                        "VARIABLE" === a.type 
+                        && "" !== a.initSelection 
+                        && e.setVariable(a.variable, a.initSelection), "DATERANGE" === a.type 
+                        && "" !== a.dateFromInitSelection 
+                        && "" !== a.dateToInitSelection 
+                        && !a.singleDatePicker 
+                        && e.selectDateFromAndTo(a.field, a.dateFromInitSelection, a.dateToInitSelection, !1)
+                        , "DATERANGE" === a.type
+                        && "" !== a.dateInitSelection 
+                        && a.singleDatePicker 
+                        && e.selectDateFromAndTo(a.field,
+                        a.dateInitSelection, a.dateInitSelection, !1)
                     });
                     var a = {
                         selectionApplied: !0
