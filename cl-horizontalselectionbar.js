@@ -10,7 +10,7 @@ define(["jquery", "underscore", "qlik", "translator", "ng!$q", "ng!$http", "./pr
 
     function s(a) {
         var b = l().utcOffset();
-        return b >= 0 ? a.subtract(b, "m") : a.add(b, "m")
+        return a; //b >= 0 ? a.subtract(b, "m") : a.add(b, "m")
     }
 
     function t(a, b, c) {
