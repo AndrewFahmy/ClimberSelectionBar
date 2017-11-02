@@ -254,7 +254,12 @@ define(["jquery", "underscore", "qlik", "translator", "ng!$q", "ng!$http", "./pr
                                 C = c.date.customRangeLabel,
                                 D = !1,
                                 _l = c.date.singleDate;
-                            c.qListObject.qDimensionInfo.qStateCounts.qSelected > 0 ? (c.qListObject.qDimensionInfo.qStateCounts.qSelected < c.date.max - c.date.min + 1 && (D = !0), p = u(c.date.min, r), q = c.date.singleDate ? u(c.date.min, r) : u(c.date.max, r), o = c.date.singleDate ? u(c.date.min, s) : u(c.date.min, s) + " - " + u(c.date.max, s)) : o = c.date.defaultText, d.push({
+                            c.qListObject.qDimensionInfo.qStateCounts.qSelected > 0 ? 
+                            (c.qListObject.qDimensionInfo.qStateCounts.qSelected < c.date.max - c.date.min + 1 && (D = !0), 
+                            p = c.date.singleDate? u(c.date.initSelection, r, !0) : u(c.date.initSelectionFrom, r, !0), 
+                            q = c.date.singleDate ? u(c.date.initSelection, r, !0) : u(c.date.initSelectionTo, r, !0), 
+                            o = (c.date.singleDate ? u(c.date.initSelection, s, !0) : u(c.date.initSelectionFrom, s, !0) + " - " + u(c.date.initSelectionTo, s, !0))) : 
+                            o = c.date.defaultText, d.push({
                                 field: c.qListObject.qDimensionInfo.qGroupFieldDefs[0],
                                 type: c.listType,
                                 id: g,
