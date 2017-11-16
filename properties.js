@@ -821,7 +821,7 @@ define(["underscore", "./lib/js/components/pp-cl-about/pp-cl-about"], function (
             }
         },
         i = {
-            component: "pp-cl-HorizontalSelectionBar",
+            component: "pp-cl-HorizontalSelectionBarWithSingleDate",
             translation: "Common.About",
             show: !0
         },
